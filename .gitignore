@@ -221,3 +221,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Ignorar carpeta de datos y archivos comprimidos
+data/
+*.zip
+*.csv
+
+# Ignorar bases de datos locales y credenciales
+*.sqlite
+*.db
+.env
