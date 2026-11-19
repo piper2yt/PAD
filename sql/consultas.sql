@@ -3,7 +3,7 @@
 -- Consultas SQLite de ejemplo para el dataset:
 --   "Financial Transactions Dataset: Analytics" (Kaggle)
 --
--- Base de datos objetivo: data/proyecto.sqlite
+-- Base de datos objetivo: data/procesamiento_data/proyecto.sqlite
 -- Generada mediante:      python src/crear_db.py
 --
 -- Tablas esperadas (a partir de los CSV del dataset):

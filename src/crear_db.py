@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Construye la base de datos local SQLite a partir de los CSV en `data/`.
+"""Construye la base de datos local SQLite a partir de los CSV en `data/raw_data/`.
 
-Este script busca automáticamente todos los archivos `.csv` dentro de la carpeta
-`data/` y los carga por bloques (chunks) en `data/proyecto.sqlite` para evitar
-problemas de memoria RAM al trabajar con datasets grandes como
+Este script busca automáticamente todos los archivos `.csv` dentro de
+`data/raw_data/` (o en `data/` como respaldo) y los carga por bloques (chunks)
+en `data/procesamiento_data/proyecto.sqlite` para evitar problemas de memoria
+RAM al trabajar con datasets grandes como
 "Financial Transactions Dataset: Analytics" de Kaggle.
 
 Uso básico (desde la raíz del repositorio):
@@ -27,8 +28,9 @@ import pandas as pd
 
 # Rutas predeterminadas basadas en la ubicación del repositorio
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_DATA_DIR = PROJECT_ROOT / "data"
-DEFAULT_DB_PATH = DEFAULT_DATA_DIR / "proyecto.sqlite"
+DEFAULT_DATA_DIR = PROJECT_ROOT / "data" / "raw_data"
+DEFAULT_PROCESSED_DIR = PROJECT_ROOT / "data" / "procesamiento_data"
+DEFAULT_DB_PATH = DEFAULT_PROCESSED_DIR / "proyecto.sqlite"
 DEFAULT_CHUNKSIZE = 100_000
 
 # Columnas frecuentes en el dataset para creación opcional de índices
@@ -199,6 +201,24 @@ def construir_base_datos(
         ruta for ruta in data_dir.glob("*.csv") if ruta.is_file() and not ruta.name.startswith(".")
     )
 
+    # Respaldo amigable: si se usa la ruta por defecto (data/raw_data) y está vacía,
+    # revisamos si los CSV fueron colocados directamente en data/
+    if not archivos_csv and data_dir.resolve() == DEFAULT_DATA_DIR.resolve():
+        respaldo_dir = PROJECT_ROOT / "data"
+        archivos_respaldo = sorted(
+            ruta
+            for ruta in respaldo_dir.glob("*.csv")
+            if ruta.is_file() and not ruta.name.startswith(".")
+        )
+        if archivos_respaldo:
+            logger.info(
+                "No se encontraron .csv en '%s'; usando como respaldo los encontrados en '%s'.",
+                data_dir,
+                respaldo_dir,
+            )
+            data_dir = respaldo_dir
+            archivos_csv = archivos_respaldo
+
     if not archivos_csv:
         logger.warning("No se encontraron archivos .csv en '%s'.", data_dir)
         logger.info(
@@ -269,7 +289,8 @@ def parsear_argumentos() -> argparse.Namespace:
     """Define y procesa los argumentos de línea de comandos."""
     parser = argparse.ArgumentParser(
         description=(
-            "Carga todos los archivos .csv de data/ por bloques en data/proyecto.sqlite."
+            "Carga los archivos .csv de data/raw_data/ por bloques en "
+            "data/procesamiento_data/proyecto.sqlite."
         )
     )
     parser.add_argument(

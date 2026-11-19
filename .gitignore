@@ -222,9 +222,15 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Ignorar datos locales, bases de datos y credenciales (conservando data/.gitkeep)
+# Ignorar datos locales, bases de datos y credenciales (conservando .gitkeep)
 data/*
 !data/.gitkeep
+!data/raw_data/
+data/raw_data/*
+!data/raw_data/.gitkeep
+!data/procesamiento_data/
+data/procesamiento_data/*
+!data/procesamiento_data/.gitkeep
 *.zip
 *.csv
 *.sqlite
