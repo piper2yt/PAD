@@ -12,6 +12,11 @@ Uso básico (desde la raíz del repositorio):
 
 Uso avanzado con parámetros opcionales:
     python src/crear_db.py --chunksize 50000 --crear-indices
+
+Regla de documentación del equipo:
+    Por cada cambio que hagan en el código o módulo que añadan, escriban un
+    comentario para entender qué es lo que hace su código / función, por qué
+    decidieron implementar esta solución, etc.
 """
 
 from __future__ import annotations

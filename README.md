@@ -1,24 +1,52 @@
-# Programación Análisis de Datos (PAD) — Análisis de Transacciones Financieras
+# Programación para el Análisis de Datos (PAD) — Análisis de Transacciones Financieras
 
-Repositorio base para la materia **Programación Análisis de Datos (PAD)**, diseñado como plantilla reproducible de análisis y ciencia de datos con **Python** (y **SQLite** opcional).
+Repositorio del equipo **Lavanderia de Datos** para la materia **Programación para el Análisis de Datos (PAD)** (ITESO, Universidad Jesuita de Guadalajara), estructurado en **Python** (con soporte opcional para **SQLite**).
+
+---
+
+## Equipo e Integrantes
+
+**Equipo:** Lavanderia de Datos
+
+- José Antonio Alvaro Zavala
+- Diego Barba Villalobos
+- Alonso Ángel Gallardo Vargas
+- Evelyn Sofía Ibáñez Martínez
+- Sergio Murillo Adabache
+- Gustavo Gael Pérez Jiménez
 
 ---
 
 ## Acerca del proyecto y del dataset
 
-El objetivo de este proyecto es organizar de forma limpia y reproducible la descarga de datos crudos, su procesamiento y el desarrollo de notebooks para responder las preguntas de análisis del curso, trabajando con el dataset público de Kaggle **[Financial Transactions Dataset: Analytics](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets?resource=download)**.
+**Tema:** Análisis de Transacciones Financieras.  
+**Objetivo preliminar:** Crear gráficas y dashboards para responder preguntas críticas dentro del contexto del negocio, visualizando la información de manera eficiente y concisa, y construir modelos de machine learning para predecir si una transacción bancaria pudiese llegar a ser fraudulenta.
 
-Este dataset reúne registros financieros de la década de 2010 orientados a análisis de comportamiento de clientes, patrones de gasto y detección de fraude. Sus archivos principales son:
+- Propuesta completa (Entrega 1): [`docs/propuesta_proyecto.md`](docs/propuesta_proyecto.md) (incluye copia del documento original `.docx`).
+- Relaciones entre tablas y avance del modelo relacional: [`docs/relaciones_tablas.md`](docs/relaciones_tablas.md) (diagrama ER, llaves de cruce, ventana `2014-2019` y foto del pizarrón).
+
+Trabajamos con el dataset público de Kaggle **[Financial Transactions Dataset: Analytics](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets?resource=download)** (`computingvictor/transactions-fraud-datasets`), cuyos archivos principales son:
 
 | Archivo | Formato | Descripción |
 | :--- | :---: | :--- |
-| `transactions_data.csv` | CSV | Registro detallado de transacciones (fecha, monto, cliente, tarjeta, comercio, canal de pago y errores). Es el archivo más grande del dataset. |
+| `transactions_data.csv` | CSV | Registro detallado de transacciones (fecha, monto, cliente, tarjeta, comercio, ciudad, estado, `mcc`, canal de pago y errores). |
 | `cards_data.csv` | CSV | Información de tarjetas de crédito y débito (marca, tipo, chip, límite de crédito, fecha de apertura). |
-| `users_data.csv` | CSV | Datos demográficos y financieros de los clientes (edad, género, ubicación, ingresos, deuda total, puntaje crediticio). |
-| `mcc_codes.json` *(opcional)* | JSON | Catálogo de códigos de categoría comercial (*Merchant Category Codes*). |
-| `train_fraud_labels.json` *(opcional)* | JSON | Etiquetas binarias de fraude para entrenamiento supervisado. |
+| `users_data.csv` | CSV | Datos demográficos y financieros de los clientes (edad, género, ubicación, ingresos, deuda total, score crediticio). |
+| `mcc_codes.json` | JSON | Catálogo descriptivo de giros comerciales (*Merchant Category Codes*). |
+| `train_fraud_labels.json` | JSON | Etiquetas binarias de fraude (`Yes` / `No`) vinculadas a cada transacción (`transaction_id`). |
 
-> **Nota sobre archivos pesados:** Ningún archivo `.zip`, `.csv`, `.sqlite`, `.sqlite3`, `.db` ni `.env` se sube al repositorio (están bloqueados en `.gitignore`). Cada estudiante descarga el dataset localmente en `data/raw_data/` y guarda sus salidas procesadas localmente en `data/procesamiento_data/`.
+> **Nota sobre archivos pesados:** Ningún archivo `.zip`, `.csv`, `.sqlite`, `.sqlite3`, `.db`, `.json` dentro de `data/` ni `.env` se sube al repositorio (están bloqueados en `.gitignore`). Cada integrante descarga el dataset localmente en `data/raw_data/` y guarda sus salidas procesadas localmente en `data/procesamiento_data/`.
+
+---
+
+## Preguntas base de investigación
+
+| # | Pregunta base (Entrega 1) | Apartado en el repositorio |
+| :-: | :--- | :--- |
+| **1** | ¿Cómo podemos predecir si una transacción específica es fraudulenta utilizando el historial transaccional previo y los patrones de comportamiento del cliente? | [`notebooks_preguntas/pregunta_1_prediccion_fraude/`](notebooks_preguntas/pregunta_1_prediccion_fraude/pregunta_1_prediccion_fraude.ipynb) |
+| **2** | ¿Cuál es el porcentaje total de las transacciones fraudulentas vs legítimas, cuál es el monto promedio por sucursal? | [`notebooks_preguntas/pregunta_2_fraude_y_sucursales/`](notebooks_preguntas/pregunta_2_fraude_y_sucursales/pregunta_2_fraude_y_sucursales.ipynb) |
+| **3** | Teniendo en cuenta los datos demográficos y el perfil financiero de un usuario, ¿qué límite de crédito le asignaría normalmente un banco, y qué usuarios tienen un límite excesivo o insuficiente en relación con esa cifra? | [`notebooks_preguntas/pregunta_3_limite_credito/`](notebooks_preguntas/pregunta_3_limite_credito/pregunta_3_limite_credito.ipynb) |
+| **Extra** | Exploración del pizarrón: series de tiempo (`2014-2019`), género vs. tipo de tarjeta (`Debit`/`Credit`) e ingreso anual vs. monto total transaccionado. | [`notebooks_preguntas/exploracion_pizarron/`](notebooks_preguntas/exploracion_pizarron/exploracion_relaciones_y_series.ipynb) |
 
 ---
 
@@ -28,28 +56,50 @@ Este dataset reúne registros financieros de la década de 2010 orientados a an�
 PAD/
 ├── data/
 │   ├── .gitkeep
-│   ├── raw_data/                        # Apartado "raw data": archivos originales de Kaggle sin modificar
+│   ├── raw_data/                                   # Apartado "raw data": archivos originales de Kaggle sin modificar
 │   │   └── .gitkeep
-│   └── procesamiento_data/              # Apartado "procesamiento data": datos limpios/procesados y proyecto.sqlite
+│   └── procesamiento_data/                         # Apartado "procesamiento data": datos limpios/procesados y proyecto.sqlite
 │       └── .gitkeep
-├── notebooks_preguntas/                 # Módulo de notebooks: aquí va el código para responder las preguntas
-│   └── 01_codigo_preguntas.ipynb
+├── docs/                                           # Documentación del proyecto y avance de relaciones entre tablas
+│   ├── img/
+│   │   └── relaciones_tablas_pizarron.png          # Foto original del pizarrón con relaciones entre tablas
+│   ├── Entrega_1_Proyecto_Final_Programacion_para_Analisis_de_Datos.docx
+│   ├── propuesta_proyecto.md                       # Propuesta de Entrega 1 en Markdown
+│   └── relaciones_tablas.md                        # Diagrama ER, llaves de cruce y notas de análisis
+├── notebooks_preguntas/                            # Módulo donde va el código de los notebooks para responder las preguntas
+│   ├── pregunta_1_prediccion_fraude/
+│   │   └── pregunta_1_prediccion_fraude.ipynb      # Respuesta y modelado para la Pregunta 1
+│   ├── pregunta_2_fraude_y_sucursales/
+│   │   └── pregunta_2_fraude_y_sucursales.ipynb    # Respuesta y gráficas para la Pregunta 2
+│   ├── pregunta_3_limite_credito/
+│   │   └── pregunta_3_limite_credito.ipynb         # Respuesta y estimación para la Pregunta 3
+│   └── exploracion_pizarron/
+│       └── exploracion_relaciones_y_series.ipynb   # Exploración adicional y series de tiempo (2014-2019)
 ├── sql/
-│   └── consultas.sql                    # Consultas SQLite de ejemplo comentadas en español (opcional)
-├── src/
-│   └── crear_db.py                      # Scripts Python de procesamiento (carga los .csv de raw_data a SQLite)
-├── .gitignore                           # Reglas de exclusión de Python, datos locales y credenciales
-├── LICENSE                              # Licencia MIT (2026)
-├── README.md                            # Documentación y guía de inicio del proyecto
-└── requirements.txt                     # Dependencias Python del proyecto
+│   └── consultas.sql                               # Consultas SQLite de ejemplo comentadas en español (opcional)
+├── src/                                            # Código fuente Python para limpieza y procesamiento de datos
+│   ├── limpieza_datos.py                           # Apartado base para limpieza y transformación de datos
+│   └── crear_db.py                                 # Script ETL opcional para generar proyecto.sqlite por bloques
+├── .gitignore                                      # Reglas de exclusión de Python, datos locales y credenciales
+├── LICENSE                                         # Licencia MIT (2026)
+├── README.md                                       # Documentación y guía de inicio del proyecto
+└── requirements.txt                                # Dependencias Python del proyecto
 ```
 
 ### ¿Qué va en cada apartado?
-- **Raw Data (`data/raw_data/`)**: aquí se colocan los archivos originales descargados desde Kaggle (`transactions_data.csv`, `cards_data.csv`, `users_data.csv`, etc.). **No se editan manualmente** para preservar siempre la fuente original.
-- **Procesamiento Data (`data/procesamiento_data/`)**: aquí se guardan los archivos de datos ya procesados, limpios o transformados (por ejemplo, datasets filtrados o la base `proyecto.sqlite` si trabajas con SQLite).
-- **Código de procesamiento (`src/`)**: aquí van los scripts `.py` reutilizables encargados de limpiar, transformar o cargar los datos desde `data/raw_data/` hacia `data/procesamiento_data/` (por ejemplo, `src/crear_db.py`).
-- **Notebooks — Código para las preguntas (`notebooks_preguntas/`)**: este es el módulo donde va el código de los notebooks (`.ipynb`) para analizar los datos y responder las preguntas del proyecto paso a paso.
-- **Consultas SQL (`sql/`) *(opcional)***: consultas de referencia en SQLite para quienes utilicen la base local `data/procesamiento_data/proyecto.sqlite`.
+- **Raw Data (`data/raw_data/`)**: archivos originales descargados desde Kaggle (`transactions_data.csv`, `cards_data.csv`, `users_data.csv`, `mcc_codes.json`, `train_fraud_labels.json`). No se modifican manualmente.
+- **Procesamiento Data (`data/procesamiento_data/`)**: archivos resultantes de la limpieza y transformación de datos (CSVs limpios, `.parquet` o `proyecto.sqlite` si utilizas SQLite).
+- **Documentación y Relaciones (`docs/`)**: propuesta del proyecto (Entrega 1) y el apartado [`docs/relaciones_tablas.md`](docs/relaciones_tablas.md) para consultar en cualquier momento las relaciones entre tablas.
+- **Limpieza y código de procesamiento (`src/`)**: scripts Python encargados de limpiar, filtrar y transformar los datos (`src/limpieza_datos.py`) o cargarlos en SQLite (`src/crear_db.py`, opcional).
+- **Notebooks — Código para las preguntas (`notebooks_preguntas/`)**: carpetas separadas para cada pregunta base del documento y la exploración del pizarrón, listas para ir desarrollando el código paso a paso.
+
+---
+
+## Regla de comentarios del equipo
+
+En todos los apartados de limpieza (`src/limpieza_datos.py`) y de respuestas a las preguntas (`notebooks_preguntas/`):
+
+> Por cada cambio que hagan en el código o módulo que añadan, escriban un comentario para entender qué es lo que hace su código / función, por qué decidieron implementar esta solución, etc.
 
 ---
 
@@ -69,7 +119,7 @@ git clone https://github.com/<tu-usuario>/PAD.git
 cd PAD
 ```
 
-*(Opcional)* Si deseas mantener sincronizado tu fork con los cambios del repositorio original, agrega el remoto `upstream`:
+*(Opcional)* Para sincronizar tu fork con cambios del repositorio original, agrega el remoto `upstream`:
 
 ```bash
 git remote add upstream https://github.com/piper2yt/PAD.git
@@ -104,11 +154,11 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 4. Descargar el dataset de Kaggle y colocar los CSV en `data/raw_data/`
+### 4. Descargar el dataset de Kaggle y colocar los archivos en `data/raw_data/`
 1. Descarga el dataset desde Kaggle:  
    **https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets?resource=download**
 2. Descomprime el archivo `.zip` descargado.
-3. Copia los archivos `.csv` (`transactions_data.csv`, `cards_data.csv`, `users_data.csv`) directamente dentro de **`data/raw_data/`** (sin borrar `.gitkeep`).
+3. Copia los archivos `.csv` (y los `.json`: `mcc_codes.json`, `train_fraud_labels.json`) directamente dentro de **`data/raw_data/`** sin borrar `.gitkeep`.
 
 Tu carpeta `data/` local debería verse así:
 
@@ -118,6 +168,8 @@ data/
 ├── raw_data/
 │   ├── .gitkeep
 │   ├── cards_data.csv
+│   ├── mcc_codes.json
+│   ├── train_fraud_labels.json
 │   ├── transactions_data.csv
 │   └── users_data.csv
 └── procesamiento_data/
@@ -147,16 +199,16 @@ El script detectará automáticamente todos los `.csv` dentro de `data/raw_data/
 
 ## Primeros pasos con el análisis
 
-### Código de preguntas en Jupyter (`notebooks_preguntas/`)
-Con el entorno virtual activado, inicia Jupyter y abre `notebooks_preguntas/01_codigo_preguntas.ipynb`:
+### Notebooks por pregunta (`notebooks_preguntas/`)
+Con el entorno virtual activado, inicia Jupyter y abre el notebook correspondiente a tu pregunta:
 
 ```bash
 jupyter notebook
 ```
-*(También puedes usar `jupyter lab` o abrir el archivo `.ipynb` directamente en VS Code seleccionando el intérprete `.venv`.)*
+*(También puedes usar `jupyter lab` o abrir los archivos `.ipynb` directamente en VS Code seleccionando el intérprete `.venv`.)*
 
 ### Consultas SQL en SQLite *(opcional)*
-Si trabajas con `data/procesamiento_data/proyecto.sqlite`, el archivo `sql/consultas.sql` incluye consultas listas y comentadas en español (exploración de esquema, agregaciones por canal de pago, errores, estados, códigos MCC, series anuales y `JOIN` entre transacciones, tarjetas y clientes). Puedes ejecutarlas con:
+Si trabajas con `data/procesamiento_data/proyecto.sqlite`, el archivo `sql/consultas.sql` incluye consultas listas y comentadas en español. Puedes ejecutarlas con:
 - **DB Browser for SQLite** (interfaz gráfica).
 - La extensión **SQLite** / **SQLTools** en VS Code.
 - La terminal con `sqlite3 data/procesamiento_data/proyecto.sqlite`.
@@ -167,7 +219,7 @@ Si trabajas con `data/procesamiento_data/proyecto.sqlite`, el archivo `sql/consu
 
 - Antes de hacer `git add` o `git commit`, revisa siempre `git status` para confirmar que **no** estás rastreando archivos pesados (`.csv`, `.zip`, `.sqlite`, `.sqlite3`, `.db`) ni archivos de credenciales (`.env`).
 - No elimines los archivos `.gitkeep` dentro de `data/`, `data/raw_data/` ni `data/procesamiento_data/`: permiten que Git conserve las carpetas vacías en el repositorio remoto.
-- Trabaja tus entregas o experimentos en ramas dedicadas (`git checkout -b analisis/mi-tema`).
+- Trabaja cada pregunta o cambio de limpieza en una rama dedicada (`git checkout -b pregunta-1/modelo-base`) y documenta en comentarios qué hace tu código y por qué elegiste esa solución.
 
 ---
 
