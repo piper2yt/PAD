@@ -18,7 +18,7 @@ Trabajamos con el dataset público de Kaggle **[Financial Transactions Dataset: 
 | `mcc_codes.json` *(opcional)* | JSON | Catálogo de códigos de categoría comercial (*Merchant Category Codes*). |
 | `train_fraud_labels.json` *(opcional)* | JSON | Etiquetas binarias de fraude para entrenamiento supervisado. |
 
-> **Nota sobre archivos pesados:** Ningún archivo `.zip`, `.csv`, `.sqlite`, `.sqlite3`, `.db` ni `.env` se sube al repositorio (están bloqueados en `.gitignore`). Cada estudiante descarga el dataset localmente y genera su propia base `data/proyecto.sqlite`.
+> **Nota sobre archivos pesados:** Ningún archivo `.zip`, `.csv`, `.sqlite`, `.sqlite3`, `.db` ni `.env` se sube al repositorio (están bloqueados en `.gitignore`). Cada estudiante descarga el dataset localmente en `data/` y, si trabaja con SQLite, genera su propia base `data/proyecto.sqlite`.
 
 ---
 
@@ -29,11 +29,11 @@ PAD/
 ├── data/
 │   └── .gitkeep                # Mantiene la carpeta data/ versionada en Git (vacía en el repo)
 ├── notebooks/
-│   └── 01_exploracion.ipynb    # Notebook inicial de EDA conectado a data/proyecto.sqlite
+│   └── 01_exploracion.ipynb    # Notebook base de EDA (listo para desarrollar paso a paso)
 ├── sql/
-│   └── consultas.sql           # Consultas SQLite de ejemplo comentadas en español
+│   └── consultas.sql           # Consultas SQLite de ejemplo comentadas en español (opcional)
 ├── src/
-│   └── crear_db.py             # Script ETL que carga los .csv de data/ por bloques a SQLite
+│   └── crear_db.py             # Script ETL opcional que carga los .csv de data/ por bloques a SQLite
 ├── .gitignore                  # Reglas de exclusión de Python, datos locales y credenciales
 ├── LICENSE                     # Licencia MIT (2026)
 ├── README.md                   # Documentación y guía de inicio del proyecto
@@ -109,8 +109,8 @@ data/
 └── users_data.csv
 ```
 
-### 5. Generar la base de datos SQLite (`data/proyecto.sqlite`)
-Ejecuta el script de carga por bloques desde la raíz del repositorio:
+### 5. (Opcional) Generar la base de datos SQLite (`data/proyecto.sqlite`)
+Si vas a trabajar con **SQLite** (en lugar de leer los `.csv` directamente desde Python), ejecuta el script de carga por bloques desde la raíz del repositorio:
 
 ```bash
 python src/crear_db.py
@@ -140,8 +140,8 @@ jupyter notebook
 ```
 *(También puedes usar `jupyter lab` o abrir el archivo `.ipynb` directamente en VS Code seleccionando el intérprete `.venv`.)*
 
-### Consultas SQL en SQLite
-El archivo `sql/consultas.sql` incluye consultas listas y comentadas en español (exploración de esquema, agregaciones por canal de pago, errores, estados, códigos MCC, series anuales y `JOIN` entre transacciones, tarjetas y clientes). Puedes ejecutarlas con:
+### Consultas SQL en SQLite *(opcional)*
+Si trabajas con `data/proyecto.sqlite`, el archivo `sql/consultas.sql` incluye consultas listas y comentadas en español (exploración de esquema, agregaciones por canal de pago, errores, estados, códigos MCC, series anuales y `JOIN` entre transacciones, tarjetas y clientes). Puedes ejecutarlas con:
 - **DB Browser for SQLite** (interfaz gráfica).
 - La extensión **SQLite** / **SQLTools** en VS Code.
 - La terminal con `sqlite3 data/proyecto.sqlite`.
